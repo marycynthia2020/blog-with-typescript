@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "@types/toastify-js": "^1.12.4",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "build": "npx tailwindcss -i ./src/style.css -o ./dist/style.css",
+    "test": "echo \"Error: no test specification\" && exit 1",
+    "dev": "tailwindcss -i ./src/style.css -o ./dist/style.css --watch"
+  },
+  "dependencies": {
+    "toastify-js": "^1.12.0"
+  }
+}

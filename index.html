@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="dist/style.css" />
+    <!-- toastify -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <title>Chinemerem Blog</title>
+  </head>
+  <body class="relative">
+    <!-- Navbar -->
+     <section class="w-full shadow-lg  bg-white   mb-6 md:mb-10 " id="nav">
+        <nav class="py-6 px-2 w-full 2xl:w-[80vw] mx-auto text-[#777777] flex flex-col gap-y-4 md:flex-row items-center justify-center md:justify-between ">
+            <div class="text-[#006efa] text-3xl font-bold">
+               Chinemerem Ugbaja
+            </div>
+            <div class="flex  gap-6 items-center justify-around  ">
+                <a href="#" title="Contact us" class=" ">
+                    Contact Us
+                </a>
+                 <button type="submit" class=" bg-[#006efa] p-2 px-4 rounded-sm text-white " id="signup"><a href="/signup.html">Sign Up</a></button>
+                <button type="submit" class="bg-[#006efa] p-2 px-6 rounded-sm text-white " id="login"><a href="/login.html">Login</a></button>
+                 <button type="submit" class="bg-[#006efa] p-2 px-6 rounded-sm text-white hidden " id="logout"><a href="/login.html">Logout</a></button>
+            </div>
+        </nav>
+    </section>
+    <main>
+        <section class="px-2 w-full 2xl:w-[80vw] mx-auto relative mb-8">
+           
+        </section>
+        <section class="px-2 w-full 2xl:w-[80vw] mx-auto font-semibold relative" id="main">
+            <div class="mb-4" id="intro">
+              <p class="text-xl font-light text-[#777777] mb-4">We offer a variety of news and articles across different    categories. Discover content tailored to your interests by selecting a category below!
+                </p>
+                <button id="categories" class="text-white bg-[#006efa] p-2 px-4 hover:opacity-40 mb-8">Explore Categories!</button>
+                <div id="categories-container" class="mb-8 flex gap-2 flex-wrap"></div>
+                <p class="text-2xl ">All Posts</p>
+            </div>
+            
+            <div class=" grid md:grid-cols-2 lg-grid-cols-3 xl:grid-cols-4 gap-4" id="posts-container">
+    
+            </div>
+            <div class="" id="post"></div>
+          
+        </section>
+    </main>
+      <footer>
+        <div class=" cursor-pointer px-2 w-full 2xl:w-[80vw] mx-auto grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5  text-[#767676] items-center mt-16">
+            <div>
+                <div class="text-[#006efa] text-2xl font-bold mb-6">
+               Chinemerem Ugbaja
+            </div>
+                <ul class=" mr-4">
+                <li class="mb-4">
+                    Condimentum adipiscing vel neque dis nam parturient orci at
+                    scelerisque neque dis nam parturient.
+                </li>
+                <li class="flex gap-3 items-center mb-4">
+                    <img src="/images/direction-svgrepo-com.svg" alt="" class="w-4">
+                    <span>451 Wall Street, UK, London</span>
+                </li>
+                <li class="flex gap-3 items-center mb-4">
+                    <img src="/images/smart-phone-svgrepo-com.svg" alt="" class="w-4">
+                    <span>Phone: (064) 332-1233</span>
+                </li>
+                <li class="flex gap-3 items-center mb-8">
+                    <img src="/images/message-square-lines-alt-svgrepo-com.svg" alt="" class="w-4">
+                    <span>
+                    Fax: (099) 453-1357</span>
+                </li>
+                
+                </ul>
+            </div>
+            <ul>
+                <li class="text-black font-medium mb-4">Our Stores</li>
+                <li class=" mb-4">New York</li>
+                <li class=" mb-4">London SF</li>
+                <li class=" mb-4">Cockfosters BP</li>
+                <li class=" mb-4">Los Angeles</li>
+                <li class=" mb-4">Chicago</li>
+                <li class=" mb-8">Las Vegas</li>
+            </ul>
+
+            <ul>
+                <li class="text-black font-medium mb-4">Useful Links</li>
+                <li class=" mb-4">Privacy Policy</li>
+                <li class=" mb-4">Payment and Delivery</li>
+                <li class=" mb-4">Promotions</li>
+                <li class=" mb-4">Servicess</li>
+                <li class=" mb-4">About Us</li>
+                <li class=" mb-8">Track Order</li>
+            </ul>
+
+            
+            <ul>
+                <li class="text-black font-medium mb-4">Footer menu</li>
+                <li class=" mb-4">LinkedIn profile</li>
+                <li class=" mb-4">New Colection</li>
+                <li class=" mb-4">Shop</li>
+                <li class=" mb-4">Contact Us</li>
+                <li class=" mb-4">Latest News</li>
+                <li class=" mb-8">purchase Theme</li>
+            </ul>
+            <div>
+                <p class="mb-4 font-medium text-black">Available On:</p>
+                <img src="/images/googleplay1.svg" alt="google playstore" class="mb-4" />
+                <img src="images/applestore1.svg" alt="Apple store"  class="mb-4"/>
+                <p class="mb-4 font-medium text-black">Social Links:</p>
+                <div class="flex  items-center gap-3 text-4xl">
+                    <img src="/images/facebook-svgrepo-com (1).svg" alt="" class="w-9">
+                    <img src="/images/twitter-2-svgrepo-com.svg" alt="" class="w-9" >
+                    <img src="/images/instagram-svgrepo-com.svg" alt="" class="w-9" >
+                   <img src="/images/youtube-svgrepo-com.svg" alt="" class="w-9" >
+                </div>
+            </div>
+        </div>
+        <!-- second footer -->
+        <div class="w-full text-[#767676] flex  ">
+            <hr />
+            <div class="px-2 w-full 2xl:w-[80vw] mx-auto py-4 flex  items-center justify-between gap-4">
+                <p class="text-center text-sm lg:text-[16px] "><span class="font-bold">WORKING WITH API </span><span class="text-red-800">AND </span><span class="font-bold">TYPESCRIPT</span>. CODED BY <span class="font-bold">CHINEMEREM UGABJA</span>.</p>
+                <button class="bg-[#006efa] rounded-full h-10 w-10 aspect-square text-2xl text-white flex items-center justify-center"><a href="#nav">&#8593;</a></button>
+            </div>
+            
+        </div>
+     </footer>
+     <script src="/script/index.js" type="module"></script>
+     <!-- <script src="script/login.js"></script> -->
+     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  </body>
+</html>
+ 

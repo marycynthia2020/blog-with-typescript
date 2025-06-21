@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/dist/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+    <!-- toastify -->
+     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <title>Chinemerem Blog</title>
+  </head>
+  <body class="grid place-items-center pt-4 bg-[#e0e2e6] font-roboto relative w-[100vw] min-h-screen">
+    <div
+      class="w-[90vw] max-w-[500px] bg-white shadow-md rounded-md p-6">
+      <h1 class="text-2xl md:text-3xl text-center font-bold mb-2">Create Your Account</h1>
+      <p class=" text-center text-gray-500 text-sm mb-6">Welcome! Please enter your details correctly</p>
+
+      <form action="">
+        <div class="flex flex-col gap-2 mb-4">
+            <label for="name">Name</label>
+            <input type="text" id="name" value="ji" placeholder="Enter your name" minlength="5" class="border-2 h-10 p-2 outline-none">
+        </div>
+        <div class="flex flex-col gap-2 mb-4">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" minlength="4"  class="border-2 h-10 p-2 outline-none">
+        </div>
+        <div class="flex flex-col gap-2 mb-4">
+            <label for="password">password</label>
+            <div class="border-2 h-10 p-2  flex justify-between items-center">
+                <input type="password" id="password" placeholder="Enter your password" minlength="4" class=" outline-none w-4/5">
+                <img src="/images/hide.svg" alt="" width="16px" id="eyeIcon">
+            </div>
+        </div>
+        <div class="flex flex-col gap-2 mb-4">
+            <select name="group" id="team" class="outline-none p-2">
+                <option value="">Select a group to belong</option>
+                <option value="Elon">Elon</option>
+                <option value="Pull Request">Pull Request</option>
+                <option value="Phoenix">Phoenix</option>
+                <option value="Titans">Titans</option>
+                  <option value="404">404</option>
+            </select>
+        </div>
+        <div class="flex gap-2 mb-4">
+             <input type="checkbox" id="agreement" class=" outline-none">
+            <label for="agreement">I accepted all terms and conditions</label>
+        </div>
+        <button type="submit" class="w-full bg-[#006efa] p-2 text-white mb-4">Sign Up</button>
+        <p  class="text-center">Already have an account? <a href="/login.html" class="text-[#006efa]">Sign in</a></p>
+    </form>
+    </div>
+    <script src="/script/signup.js" type="module"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  </body>
+</html>
