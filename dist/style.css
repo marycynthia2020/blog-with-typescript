@@ -554,8 +554,25 @@ video {
   display: none;
 }
 
+.fixed {
+  position: fixed;
+}
+
 .relative {
   position: relative;
+}
+
+.inset-x-0 {
+  left: 0px;
+  right: 0px;
+}
+
+.top-0 {
+  top: 0px;
+}
+
+.z-\[999\] {
+  z-index: 999;
 }
 
 .mx-auto {
@@ -611,14 +628,6 @@ video {
   aspect-ratio: 1 / 1;
 }
 
-.aspect-video {
-  aspect-ratio: 16 / 9;
-}
-
-.aspect-auto {
-  aspect-ratio: auto;
-}
-
 .h-10 {
   height: 2.5rem;
 }
@@ -653,6 +662,11 @@ video {
 
 .w-\[90vw\] {
   width: 90vw;
+}
+
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 .w-full {
@@ -743,11 +757,6 @@ video {
   border-width: 2px;
 }
 
-.border-\[\#006efa\] {
-  --tw-border-opacity: 1;
-  border-color: rgb(0 110 250 / var(--tw-border-opacity, 1));
-}
-
 .bg-\[\#006efa\] {
   --tw-bg-opacity: 1;
   background-color: rgb(0 110 250 / var(--tw-bg-opacity, 1));
@@ -763,27 +772,13 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
-.object-contain {
-  -o-object-fit: contain;
-     object-fit: contain;
-}
-
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
 }
 
-.object-fill {
-  -o-object-fit: fill;
-     object-fit: fill;
-}
-
 .p-2 {
   padding: 0.5rem;
-}
-
-.p-4 {
-  padding: 1rem;
 }
 
 .p-6 {
@@ -813,6 +808,10 @@ video {
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+}
+
+.pt-28 {
+  padding-top: 7rem;
 }
 
 .pt-4 {
@@ -945,6 +944,20 @@ video {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  position: absolute;
+  top: 100px;
+  background-color: white;
+  inset-inline: 0;
+  z-index: 999;
+  gap: 12px;
+  align-items: center;
+  min-height: 100vh;
+}
+
 .posts {
   border: 2px solid gray;
   display: flex;
@@ -974,16 +987,28 @@ video {
     margin-bottom: 2.5rem;
   }
 
+  .md\:flex {
+    display: flex;
+  }
+
+  .md\:hidden {
+    display: none;
+  }
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .md\:flex-row {
-    flex-direction: row;
+  .md\:items-center {
+    align-items: center;
   }
 
   .md\:justify-between {
     justify-content: space-between;
+  }
+
+  .md\:gap-6 {
+    gap: 1.5rem;
   }
 
   .md\:text-3xl {

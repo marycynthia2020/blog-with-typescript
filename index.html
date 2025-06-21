@@ -14,28 +14,30 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <title>Chinemerem Blog</title>
   </head>
-  <body class="relative">
+  <body class="relative pt-28">
     <!-- Navbar -->
-     <section class="w-full shadow-lg  bg-white   mb-6 md:mb-10 " id="nav">
-        <nav class="py-6 px-2 w-full 2xl:w-[80vw] mx-auto text-[#777777] flex flex-col gap-y-4 md:flex-row items-center justify-center md:justify-between ">
+     <section class="w-full shadow-lg py-6 px-2   mb-6 md:mb-10 fixed inset-x-0 top-0 z-[999] " id="nav">
+        <nav class=" w-full  2xl:w-[80vw] mx-auto text-[#777777] flex  gap-y-4 items-center justify-between">
             <div class="text-[#006efa] text-3xl font-bold">
-               Chinemerem Ugbaja
+               Chinemerem
             </div>
-            <div class="flex  gap-6 items-center justify-around  ">
+            <div class=" hidden md:flex md:gap-6 md:items-center md:justify-between" id="nav-menu">
                 <a href="#" title="Contact us" class=" ">
                     Contact Us
                 </a>
-                 <button type="submit" class=" bg-[#006efa] p-2 px-4 rounded-sm text-white " id="signup"><a href="/signup.html">Sign Up</a></button>
-                <button type="submit" class="bg-[#006efa] p-2 px-6 rounded-sm text-white " id="login"><a href="/login.html">Login</a></button>
-                 <button type="submit" class="bg-[#006efa] p-2 px-6 rounded-sm text-white hidden " id="logout"><a href="/login.html">Logout</a></button>
+                 <button type="submit" class=" bg-[#006efa] p-2 px-4 rounded-sm text-white w-fit" id="signup"><a href="/signup.html">Sign Up</a></button>
+                <button type="submit" class="bg-[#006efa] p-2 px-6 rounded-sm text-white w-fit" id="login"><a href="/login.html">Login</a></button>
+                 <button type="submit" class="bg-[#006efa] p-2 px-6 rounded-sm text-white hidden w-fit " id="logout"><a href="/login.html">Logout</a></button>
             </div>
+           <button class=" md:hidden"  id="hamburger"><img src="/images/hamburger-menu-svgrepo-com.svg" width="50" height="50"/></button>
         </nav>
+
     </section>
-    <main>
+    <main class="">
         <section class="px-2 w-full 2xl:w-[80vw] mx-auto relative mb-8">
            
         </section>
-        <section class="px-2 w-full 2xl:w-[80vw] mx-auto font-semibold relative" id="main">
+        <section class="px-2 w-full 2xl:w-[80vw] mx-auto font-semibold relative " id="main">
             <div class="mb-4" id="intro">
               <p class="text-xl font-light text-[#777777] mb-4">We offer a variety of news and articles across different    categories. Discover content tailored to your interests by selecting a category below!
                 </p>

@@ -3,6 +3,7 @@ fetchAllPosts("https://test.blockfuselabs.com/api/posts") //fetch all the posts 
 const currentUser = JSON.parse(localStorage.getItem("userLoggedIn") || "{}")
 const isLoggedIn: boolean = JSON.parse(localStorage.getItem("isLoggedIn") || "false")
 
+const hamburgerMenu = document.getElementById("hamburger") as HTMLButtonElement
 const signupButton = document.querySelector("#signup") as HTMLButtonElement
 const loginButton = document.querySelector("#login") as HTMLButtonElement
 const logoutButton = document.querySelector("#logout") as HTMLButtonElement
@@ -12,6 +13,16 @@ const postHolder = document.querySelector("#post") as HTMLDivElement
 const categoryButton = document.querySelector("#categories") as HTMLButtonElement
 const categoriesContainer = document.querySelector("#categories-container") as HTMLDivElement
 const foundPostCommentContainer = document.createElement("div")   //created this as a global variable, so I can access it from all functions
+
+if(hamburgerMenu){
+  console.log(hamburgerMenu)
+}
+hamburgerMenu.addEventListener("click", ()=>{
+  console.log("hello")
+  document.querySelector("#nav-menu")?.classList.toggle("mobile-nav")
+})
+
+
 
 function alertMessage(message:string, bgColor: string){
   Toastify({
