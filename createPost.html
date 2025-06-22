@@ -22,7 +22,6 @@
                 <a href="https://www.linkedin.com/in/chinemerem-ugbaja-439b891a8/" title="Contact us" class=" ">
                     Contact Us
                 </a>
-                <button  id="link-to-create-post">Create Post</button>
                  <button type="submit" class=" bg-[#006efa] p-2 px-4 rounded-sm text-white " id="signup"><a href="/signup.html">Sign Up</a></button>
                 <button type="submit" class="bg-[#006efa] p-2 px-6 rounded-sm text-white " id="login"><a href="/login.html">Login</a></button>
                  <button type="submit" class="bg-[#006efa] py-2 px-6 rounded-sm text-white hidden  " id="logout"><a href="/login.html">Logout</a></button>
@@ -32,43 +31,30 @@
 
     </section>
     <main class="">
-        <section class="px-2 w-full 2xl:w-[80vw] mx-auto relative mb-8">
-           
-        </section>
-        <section class="px-2 w-full 2xl:w-[80vw] mx-auto relative " id="main">
-            <div class="mb-4" id="intro">
-              <p class="text-xl font-light text-[#777777] mb-4">We offer a variety of news and articles across different    categories. Discover content tailored to your interests by selecting a category below!
-                </p>
-                <button id="categories" class="text-white bg-[#006efa] p-2 px-4 hover:opacity-40 mb-8">Explore Categories!</button>
-                <div id="categories-container" class="mb-8 flex gap-2 flex-wrap"></div>
-                <p class="text-2xl ">All Posts</p>
-            </div>
-             <form action="" class="hidden max-w-[500px]" id="create-post-form">
+        <section class="px-2 w-full 2xl:w-[80vw] mx-auto font-semibold">
+            <div class="w-[90vw] max-w-[500px] mx-auto text-[#777777]" id="">
+                <form action="" id="create-post-form">
                     <div class="flex flex-col gap-2 mb-6">
                         <label for="post-title">Post Title</label>
-                        <input type="text" id="title" name="title" placeholder="Enter a title"  class="border-2 h-10 p-2 outline-none" required>
+                        <input type="text" id="title" name="title" placeholder="Enter a title"  class="border-2 h-10 p-2 outline-none">
                     </div>
                     <div class="flex flex-col gap-2 mb-6">
                         <label for="content">Content</label>
-                       <textarea id="content" name="content" class="border outline-none min-h-[150px] p-2" placeholder="Write your post" required></textarea>
+                       <textarea id="content" name="content" class="border outline-none min-h-[150px] p-2" placeholder="Write your post"></textarea>
                     </div>
                      <div class="flex flex-col gap-2 mb-6">
                         <label for="category">Category</label>
-                       <select name="category_id" id="category" class="outline-none" required>
+                       <select name="category_id" id="category" class="outline-none">
                             <option value="">Choose a category</option>
                        </select>
                     </div>
                    <div class="flex flex-col gap-2 mb-6">
                          <!-- <label for="image">featured Image</label> -->
-                        <input type="file" name="featured_image" id="image" required>
+                        <input type="file" name="featured_image" id="image">
                    </div>
                    <button class=" bg-[#006efa] w-full p-2 text-white" id="form-btn">Post</button>
                 </form>
-            <div class=" grid md:grid-cols-2 lg-grid-cols-3 xl:grid-cols-4 gap-4" id="posts-container">
-    
             </div>
-            <div class="" id="post"></div>
-          
         </section>
     </main>
       <footer>
@@ -146,13 +132,12 @@
             <hr />
             <div class="px-2 w-full 2xl:w-[80vw] mx-auto py-4 flex  items-center justify-between gap-4">
                 <p class="text-center text-sm lg:text-[16px] "><span class="font-bold">WORKING WITH API </span><span class="text-red-800">AND </span><span class="font-bold">TYPESCRIPT</span>. CODED BY <span class="font-bold">CHINEMEREM UGABJA</span>.</p>
-                <button class="bg-[#006efa] rounded-full h-10 w-10 aspect-square text-2xl text-white flex items-center justify-center"><a href="#nav">&#8593;</a></button>
+                <!-- <button class="bg-[#006efa] rounded-full h-10 w-10 aspect-square text-2xl text-white flex items-center justify-center"><a href="#nav">&#8593;</a></button> -->
             </div>
             
         </div>
      </footer>
      <script src="/script/index.js" type="module"></script>
-     <!-- <script src="script/login.js"></script> -->
      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   </body>
 </html>
