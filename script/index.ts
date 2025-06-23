@@ -1,3 +1,4 @@
+fetchAllPosts("https://test.blockfuselabs.com/api/posts") //fetch all the posts and render on page load
 const currentUser = JSON.parse(localStorage.getItem("userLoggedIn") || "{}")
 const isLoggedIn: boolean = JSON.parse(localStorage.getItem("isLoggedIn") || "false")
 
@@ -11,6 +12,7 @@ const postHolder = document.querySelector("#post") as HTMLDivElement
 const categoryButton = document.querySelector("#categories") as HTMLButtonElement
 const categoriesContainer = document.querySelector("#categories-container") as HTMLDivElement
 const createPostForm = document.querySelector("#create-post-form") as HTMLFormElement
+const createPostFormBtn = document.querySelector("#form-btn") as HTMLButtonElement
 const createPostBtn = document.querySelector("#link-to-create-post") as HTMLButtonElement
 const title = document.querySelector("#title") as HTMLInputElement
 const content = document.querySelector("#content") as HTMLInputElement
@@ -24,20 +26,20 @@ if(isLoggedIn && currentUser.token) {
   logoutButton.style.display = "block"
 }
 
-fetchAllPosts("https://test.blockfuselabs.com/api/posts") //fetch all the posts and render on page load
-logoutButton.addEventListener("click", ()=>{   //logout on clicking the logout button and clears the user and logged in details
+logoutButton.addEventListener("click", ()=>{
   localStorage.clear()
   location.href = "/index.html"
 })
 
-categoryButton?.addEventListener("click", ()=>{
-  fetchAllCategories()
-  renderAllCategories()
-})
-createPostBtn.addEventListener("click", openPostInterface)
-createPostForm.addEventListener("submit", createPost)
 hamburgerMenu.addEventListener("click", ()=>{
   document.querySelector("#nav-menu")?.classList.toggle("mobile-nav")
+})
+
+categoryButton.addEventListener("click", fetchAllCategories)
+createPostBtn.addEventListener("click", openPostInterface)
+createPostForm.addEventListener("submit", (event:SubmitEvent)=>{
+  event.preventDefault()
+  createPost("POST", "https://test.blockfuselabs.com/api/posts")
 })
 
 function alertMessage(message:string, bgColor: string){
@@ -96,34 +98,58 @@ async function renderASinglePost(id: number){
   const foundPost = allPosts.find(post =>post.id === id)
   if(foundPost){
     allPostsContainer.innerHTML = ""
+     postHolder.innerHTML = ""
     intro.innerHTML = ""
     const singlePostContainer = document.createElement("div")
-    singlePostContainer.setAttribute("id", foundPost.id)
     singlePostContainer.className = "flex flex-col gap-4 mb-8 lg:w-[50%] mx-auto "
-   const style = 
-  //  //class=`${currentUser.id === foundPost.user.id ? 'flex gap-4 mt-4': 'hidden'}`
     singlePostContainer.innerHTML = `
-         <div class="flex flex-col">
-          <div class="flex flex-col gap-2">
-            <button class="bg-[#006efa] rounded-full h-10 w-10 text-2xl aspect-square text-white flex items-center justify-center"><a href="">&larr;</a></button>
-            <div class="flex-grow flex flex-col gap-3 ">
-              <img src=${foundPost.featured_image_url_full} alt=${foundPost.category.name} class="w-full object-cover"/l>
-              <p class=" text-3xl font-bold">${foundPost.title}</p>
-              <p class="text-[#333333B3] tracking-wide leading-8 ">${foundPost.content}</p>
-            </div>
-          </div>
-          <div class="hidden gap-4 mt-4 self-end" id="btns-container">  
-            <button class="" id="edit"><img src="/images/edit.svg" alt="edit button" title="edit" width="30px"/></button>
-             <button class=" " id="delete"><img src="/images/delete.svg" alt="delete button" title="delete" width="30px"/></button>
-          </div>
-         </div>
-        `
+      <div class="flex flex-col">
+      <div class="flex flex-col gap-2">
+        <button class="bg-[#006efa] rounded-full h-10 w-10 text-2xl aspect-square text-white flex items-center justify-center"><a href="">&larr;</a></button>
+        <div class="flex-grow flex flex-col gap-3 ">
+          <img src=${foundPost.featured_image_url_full} alt=${foundPost.category.name} class="w-full object-cover"/l>
+          <p class=" text-3xl font-bold">${foundPost.title}</p>
+          <p class="text-[#333333B3] tracking-wide leading-8 ">${foundPost.content}</p>
+        </div>
+      </div>
+      <div class="hidden gap-4 mt-4 self-end" id="btns-container">  
+        <button class="" id="delete"><img src="/images/delete.svg" alt="delete button" title="delete" width="30px"/></button>
+      </div>
+      </div>
+    `
     postHolder.appendChild(singlePostContainer)
+    createAcommentSection(foundPost)    
+    fetchPostComments(foundPost)
+    console.log(foundPost)
+    
+    const buttonsContainer = document.querySelector("#btns-container") as HTMLDivElement   //delete and edit functionalities starts here
+    buttonsContainer.style.display =  currentUser.user.id === foundPost.user.id ? "flex" : "none"
+    const deleteBtn = document.querySelector("#delete") as HTMLButtonElement
+    const editBtn = document.querySelector("#edit") as HTMLButtonElement
+    
+    deleteBtn.addEventListener("click", ()=>{
+      deletePost(foundPost.id)
+    })
 
+    // editBtn.addEventListener("click", ()=>{
+    //   openPostInterface()
+    //   title.value = foundPost.title
+    //   content.value = foundPost.content
+    //   categoryInput.value = foundPost.category_id
+    //   createPostFormBtn.textContent = "Edit"
+    //  createPostForm.addEventListener("submit", ()=>{
+    //   console.log("hello")
+    //   createPost("PATCH", `https://test.blockfuselabs.com/api/posts/${foundPost.id}`)
+    //  })
+    // })
+  }
+}
+
+function createAcommentSection(post:any){
     const commentSection = document.createElement("div")     //create a comment section
     commentSection.className = "flex flex-col gap-4 lg:w-[50%] mb-8 mx-auto"
     commentSection.innerHTML = `
-        <p class ="fontt-bold text-3xl">${foundPost.category.name} Comments</p>
+        <p class ="fontt-bold text-3xl">${post.category.name} Comments</p>
         <form class="flex flex-col gap-4" id="comment-form">
            <input type="text" placeholder="Your name" class="border h-10 p-2 outline-none" id="name" required>
           <textarea placeholder="share your opinion" class="border p-2 min-h-28 w-full outline-none" id="content" required></textarea>
@@ -140,30 +166,15 @@ async function renderASinglePost(id: number){
           const comments: {content: string} ={
             content: commentHolder.value.trim()
           }
-          PostAComment(foundPost.id, comments)
+          PostAComment(post.id, comments)
           .then(()=>foundPostCommentContainer.innerHTML = "")
-          .then(()=>fetchPostComments(foundPost.id)) // clears all the comments and fetches them again to avoid duplicate
+          .then(()=>fetchPostComments(post.id)) // clears all the comments and fetches them again to avoid duplicate
         } else{
           alertMessage("Log in to post a comment", "red")
         }
       })
     }
-    const buttonsContainer = document.querySelector("#btns-container") as HTMLDivElement   //delete and edit functionalities starts here
-    buttonsContainer.style.display =  currentUser.user.id === foundPost.user.id ? "flex" : "none"
-    const deleteBtn = document.querySelector("#delete") as HTMLButtonElement
-    const editBtn = document.querySelector("#edit") as HTMLButtonElement
-    deleteBtn.addEventListener("click", ()=>{
-      deletePost(foundPost.id)
-    })
-    editBtn.addEventListener("click", ()=>{
-      editPost(foundPost)
-    })
-    fetchPostComments(foundPost)
-    console.log(foundPost)
-  }
 }
-
-
 async function fetchPostComments (id:number){
   foundPostCommentContainer.className = "foundCommentsContainer lg:w-[50%] mx-auto"
   try{
@@ -228,16 +239,7 @@ async function fetchAllCategories(){
       alertMessage(`${result2.message}`, "red")
     } else{
       let categoriesArray = [...result1.data, ...result2.data]
-      return categoriesArray
-    }
-  }catch{
-    alertMessage("No category fetched", "red")
-  }
- 
-}
-async function renderAllCategories(){
-     const categoriesArray = await fetchAllCategories()
-     categoriesContainer.innerHTML = ''
+       categoriesContainer.innerHTML = ''
       categoriesArray?.forEach(category =>{
       categoriesContainer.innerHTML += `
         <button class="p-2 border-2 px-4 text-[#767676] hover:opacity-40 btns" id=${category.id}>${category.name}</button>
@@ -246,15 +248,19 @@ async function renderAllCategories(){
       if(buttons){
         buttons.forEach(btn =>{
           btn.addEventListener("click", ()=>{
-            fetchASingleCategory(+btn.id)
+            renderPostByCategory(+btn.id)
           })
         })
       }
      })
+      return categoriesArray
+    }
+  }catch{
+    alertMessage("No category fetched", "red")
   }
+}
 
-
-async function fetchASingleCategory(id:number){
+async function renderPostByCategory(id:number){
   const allPosts: Array<any> = await fetchAllPosts("https://test.blockfuselabs.com/api/posts")   //get all the posts so as to filter for each category
   const foundPosts = allPosts.filter(post => post.category.id === id)
   if(foundPosts.length >0){
@@ -274,19 +280,20 @@ async function openPostInterface(){
     createPostForm.classList.toggle("block")
     if(createPostForm.classList.contains("block")){
       intro.style.display = "none"
-    allPostsContainer.style.display = "none"
+      allPostsContainer.style.display = "none"
+      postHolder.style.display = "none"
     } else{
       intro.style.display = "block"
-    allPostsContainer.style.display = "grid"
+      allPostsContainer.style.display = "grid"
+      postHolder.style.display = "block"
     }
 }
 
-async function createPost(event: SubmitEvent){
-  event.preventDefault()
+async function createPost(method: string, url: string){
   if(currentUser.token && isLoggedIn){
     try{
-      const response = await fetch("https://test.blockfuselabs.com/api/posts", {
-        method: "POST",
+      const response = await fetch(url, {
+        method: method,
         headers: {
           // "Content-Type": "multipart/FormData",
           "Authorization": `Bearer ${currentUser.token}`
@@ -294,8 +301,10 @@ async function createPost(event: SubmitEvent){
         body: new FormData(createPostForm)
       })
       const result = await response.json()
+      console.log(response, 1)
+      console.log(result, 2)
       if(!response.ok){
-        alertMessage("Failed to create post", "red")
+        alertMessage("Failed to create post from server", "red")
         return
       }
       alertMessage("post created", "#006efa")
@@ -318,7 +327,6 @@ async function deletePost(id: number){
       headers:{
         "Authorization": `Bearer ${currentUser.token}`
       },
-
     })
     const result = await response.json()
     if(!response.ok){
@@ -329,15 +337,4 @@ async function deletePost(id: number){
   }catch{
     alertMessage("Post not deleted", "red")
   }
-}
-
-async function editPost(post: any){
-  postHolder.innerHTML = ""
-  openPostInterface()
-  title.value = post.title
-  content.value = post.content
-  categoryInput.value = post.category_id.value
-  // image.files[0] = post.featured_image
-
-
 }
