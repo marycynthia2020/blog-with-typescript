@@ -100,15 +100,23 @@ async function renderASinglePost(id: number){
     const singlePostContainer = document.createElement("div")
     singlePostContainer.setAttribute("id", foundPost.id)
     singlePostContainer.className = "flex flex-col gap-4 mb-8 lg:w-[50%] mx-auto "
+   const style = 
+  //  //class=`${currentUser.id === foundPost.user.id ? 'flex gap-4 mt-4': 'hidden'}`
     singlePostContainer.innerHTML = `
-         <div class="flex flex-col gap-2">
-          <button class="bg-[#006efa] rounded-full h-10 w-10 text-2xl aspect-square text-white flex items-center justify-center"><a href="">&larr;</a></button>
-          <div class="flex-grow flex flex-col gap-3 ">
-            <img src=${foundPost.featured_image_url_full} alt=${foundPost.category.name} class="w-full object-cover"/l>
-            <p class=" text-3xl font-bold">${foundPost.title}</p>
-            <p class="text-[#333333B3] tracking-wide leading-8 ">${foundPost.content}</p>
+         <div class="flex flex-col">
+          <div class="flex flex-col gap-2">
+            <button class="bg-[#006efa] rounded-full h-10 w-10 text-2xl aspect-square text-white flex items-center justify-center"><a href="">&larr;</a></button>
+            <div class="flex-grow flex flex-col gap-3 ">
+              <img src=${foundPost.featured_image_url_full} alt=${foundPost.category.name} class="w-full object-cover"/l>
+              <p class=" text-3xl font-bold">${foundPost.title}</p>
+              <p class="text-[#333333B3] tracking-wide leading-8 ">${foundPost.content}</p>
+            </div>
           </div>
-        </div>
+          <div class="hidden gap-4 mt-4 self-end" id="btns-container">  
+            <button class="" id="edit"><img src="/images/edit.svg" alt="edit button" title="edit" width="30px"/></button>
+             <button class=" " id="delete"><img src="/images/delete.svg" alt="delete button" title="delete" width="30px"/></button>
+          </div>
+         </div>
         `
     postHolder.appendChild(singlePostContainer)
 
@@ -116,31 +124,42 @@ async function renderASinglePost(id: number){
     commentSection.className = "flex flex-col gap-4 lg:w-[50%] mb-8 mx-auto"
     commentSection.innerHTML = `
         <p class ="fontt-bold text-3xl">${foundPost.category.name} Comments</p>
-        <input type="text" placeholder="Your name" class="border h-10 p-2 outline-none" id="name">
-        <textarea placeholder="share your opinion" class="border p-2 min-h-28 w-full outline-none" id="content"></textarea>
-        <button class=" bg-[#006efa] p-2 text-white" id="comment-button">Comment</button>
-    `
+        <form class="flex flex-col gap-4" id="comment-form">
+           <input type="text" placeholder="Your name" class="border h-10 p-2 outline-none" id="name" required>
+          <textarea placeholder="share your opinion" class="border p-2 min-h-28 w-full outline-none" id="content" required></textarea>
+          <button class=" bg-[#006efa] p-2 text-white" id="comment-button">Comment</button>
+        </form>
+        `
     postHolder.appendChild(commentSection)
-    const commentButton = document.querySelector("#comment-button") as HTMLButtonElement  //add eventlistener to the comment button
-    if(commentButton){
-      commentButton.addEventListener("click", function(){
+    const commentForm = document.querySelector("#comment-form") as HTMLFormElement  //add eventlistener to the comment form
+    if(commentForm){
+      commentForm.addEventListener("submit", function(event: SubmitEvent){
+        event.preventDefault()
         if(currentUser.token && isLoggedIn){
           const commentHolder = document.querySelector("#content") as HTMLTextAreaElement
-          const nameHolder = document.querySelector("#name") as HTMLInputElement
-          const comment ={
-            content: commentHolder.value
+          const comments: {content: string} ={
+            content: commentHolder.value.trim()
           }
-          commentHolder.value = ""
-          nameHolder.value = ""
-          PostAComment(foundPost.id, comment)
-          .then(()=>{foundPostCommentContainer.innerHTML = ""})
-          .then(()=>{fetchPostComments(foundPost.id)}) // clears all the comments and fetches them again to avoid duplicate
+          PostAComment(foundPost.id, comments)
+          .then(()=>foundPostCommentContainer.innerHTML = "")
+          .then(()=>fetchPostComments(foundPost.id)) // clears all the comments and fetches them again to avoid duplicate
         } else{
           alertMessage("Log in to post a comment", "red")
         }
       })
     }
-    fetchPostComments(foundPost.id)
+    const buttonsContainer = document.querySelector("#btns-container") as HTMLDivElement   //delete and edit functionalities starts here
+    buttonsContainer.style.display =  currentUser.user.id === foundPost.user.id ? "flex" : "none"
+    const deleteBtn = document.querySelector("#delete") as HTMLButtonElement
+    const editBtn = document.querySelector("#edit") as HTMLButtonElement
+    deleteBtn.addEventListener("click", ()=>{
+      deletePost(foundPost.id)
+    })
+    editBtn.addEventListener("click", ()=>{
+      editPost(foundPost)
+    })
+    fetchPostComments(foundPost)
+    console.log(foundPost)
   }
 }
 
@@ -156,7 +175,6 @@ async function fetchPostComments (id:number){
         }
           const result = await commentsResponse.json()
           if(result.length > 0){
-                console.log(result)
             result.forEach((comment: any) =>{  
             foundPostCommentContainer.innerHTML += `
                 <div class="flex gap-4 items-center mt-4">
@@ -188,11 +206,10 @@ async function PostAComment(id: number, comment: object){
         },
         body: JSON.stringify(comment)
       })
+      const result = await response.json()
       if(!response.ok){
-        const result = await response.json()
-        alertMessage(`${result.message}`, "red")
+        alertMessage(`no`, "red")
       } else{
-        const result = await response.json()
          alertMessage("Comment posted succesfully", "#006efa")
       }
   }catch{
@@ -264,9 +281,6 @@ async function openPostInterface(){
     }
 }
 
-
-
-
 async function createPost(event: SubmitEvent){
   event.preventDefault()
   if(currentUser.token && isLoggedIn){
@@ -281,7 +295,6 @@ async function createPost(event: SubmitEvent){
       })
       const result = await response.json()
       if(!response.ok){
-        console.log(result)
         alertMessage("Failed to create post", "red")
         return
       }
@@ -291,10 +304,40 @@ async function createPost(event: SubmitEvent){
       location.href = "/index.html"
      }, 2000)
     }catch(err){
-      console.log("Error", err)
       alertMessage("Failed to create post", "red")
     }
   }else{
     alertMessage("Login to create a post", "red")
   } 
+}
+
+async function deletePost(id: number){
+  try{
+    const response = await fetch(`https://test.blockfuselabs.com/api/posts/${id}`, {
+      method: "DELETE",
+      headers:{
+        "Authorization": `Bearer ${currentUser.token}`
+      },
+
+    })
+    const result = await response.json()
+    if(!response.ok){
+      alertMessage(`${result.error}`, "red")
+      return
+    }alertMessage(`${result.message}`, "#006efa")
+    setTimeout(()=> {location.href = "/index.html"}, 2000)
+  }catch{
+    alertMessage("Post not deleted", "red")
+  }
+}
+
+async function editPost(post: any){
+  postHolder.innerHTML = ""
+  openPostInterface()
+  title.value = post.title
+  content.value = post.content
+  categoryInput.value = post.category_id.value
+  // image.files[0] = post.featured_image
+
+
 }
